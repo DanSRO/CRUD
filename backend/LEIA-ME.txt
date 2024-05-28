@@ -1,0 +1,33 @@
+Instruções para uso do projeto:
+
+Comandos baseados em ambiente Windows;
+
+Primeiro passo:
+
+Tenha um editor de sua preferência, no projeto usei a IDE VSCODE;
+
+Após baixar o projeto em https://github.com/DanSRO/crud_vagas;
+
+Use comandos 'php artisan key:generate' dentro de seu terminal ou de sua IDE para gerar
+
+uma nova chave e caso seja necessário use um 'composer install' para instalar dependências;
+
+É necessário ter em sua máquina já instalado o Docker; 
+
+Use o comando para subir o ambiente do projeto (sem aspas): ' docker-compose up -d';
+
+Se sentir mais necessidade pode usar o comando 'docker-compose up --build -d' para construir todo o projeto;
+
+Para fazer as migrations use 'docker exec -it crud_vagas-app-1 php artisan migrate' (sem aspas);
+
+Para refazer as migrations use o comando: 'docker exec -it crud_vagas-app-1 php artisan migrate:fresh'( Atenção:'Esse comando irá apagar dados das tabelas');
+
+Detalhe: O nome do container é 'crud_vagas-app-1' use o comando 'docker ps' para verificar o nome, caso haja diferença;
+
+Para usar comandos do php artisan no terminal primeiro inicie com 'docker exec -it' (sem aspas);
+
+O projeto estará rodando em: 'http://localhost:8888 ;
+
+Na página inicial há links para listar vagas ou candidatos;
+
+Caso não haja dados há opções de criar vagas ou criar candidatos.
