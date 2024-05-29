@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Vaga } from './VagasList';
+import { Vaga } from '../Vagas/VagasList';
 
 export const ShowVaga: React.FC = () => {
     const { id } = useParams<{ id: string }>();

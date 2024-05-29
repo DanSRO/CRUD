@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Vaga, ApiError } from './VagasList';
+import { Vaga, ApiError } from '../Vagas/VagasList';
+
+import styles from './EditVagas.module.scss';
 
 export const EditVaga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -75,7 +77,7 @@ export const EditVaga: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             <h1>Edit Vaga</h1>
             {message && <p>{message}</p>}
             <form onSubmit={handleSubmit}>

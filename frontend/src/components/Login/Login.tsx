@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import styles from './Login.module.scss';
 
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string | null>(null);    
 
     const handleLogin = async () => {
         try {
@@ -34,7 +37,7 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <h2>Login</h2>
             
             <input
@@ -49,9 +52,13 @@ export const Login: React.FC = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-            />
-            
+            />            
             <button onClick={handleLogin}>Login</button>
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles.navigation}>
+                <Link to="/">Voltar para a Página Principal</Link>
+                <Link to="/register">Registrar</Link>            
+            </div>
         </div>
     );
 };

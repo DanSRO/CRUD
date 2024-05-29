@@ -10,7 +10,7 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create']);
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('store.login');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
-Route::get('/', function () {
+Route::get('/api', function () {
     return view('welcome');
 });
 

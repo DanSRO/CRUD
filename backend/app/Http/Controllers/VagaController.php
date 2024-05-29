@@ -42,7 +42,9 @@ class VagaController extends Controller
 
     public function create()
     {
-        return view('vagas.create');
+        $vagas=Vaga::all();
+        // return view('vagas.create');
+        return response()->json($vagas);
     }
 
     public function store(Request $request)

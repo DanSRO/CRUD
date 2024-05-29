@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState } from "react";
+import styles from './Register.module.scss';
+import { Link } from "react-router-dom";
 
 export const Register:React.FC = () =>{
     const [name, setName] = useState('');
@@ -27,7 +29,7 @@ export const Register:React.FC = () =>{
     };
 
     return(
-        <div>
+        <div className={styles.container}>
             <h2>Registrar</h2>
             <input 
             type="text"
@@ -48,7 +50,11 @@ export const Register:React.FC = () =>{
             onChange={(e)=>setPassword(e.target.value)}
             />
             <button onClick={handleRegister}>Registrar</button>
-            {error && <p>{error}</p>}
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles.navigation}>
+                <Link to="/">Voltar para a Página Principal</Link>
+                <Link to="/login">Login</Link>
+            </div>
         </div>
     )
 }

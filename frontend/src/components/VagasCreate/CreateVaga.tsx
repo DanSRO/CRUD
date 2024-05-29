@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Vaga } from './VagasList';
+import { useNavigate, Link } from 'react-router-dom';
+import { Vaga } from '../Vagas/VagasList';
+
+import styles from './CreateVagas.module.scss';
 
 export const CreateVaga: React.FC = () => {
     const navigate = useNavigate();
@@ -44,7 +46,7 @@ export const CreateVaga: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <h1>Create Vaga</h1>
             {message && <p>{message}</p>}
             {error && <p>{error}</p>}
@@ -88,6 +90,10 @@ export const CreateVaga: React.FC = () => {
                     />
                 </label>
                 <button type="submit">Salvar</button>
+                {error && <p className={styles.error}>{error}</p>}
+            <div className={styles.navigation}>
+                <Link to="/">Voltar para a Página Principal</Link>                
+            </div>
             </form>
         </div>
     );
