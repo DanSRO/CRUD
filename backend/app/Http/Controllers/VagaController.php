@@ -57,7 +57,8 @@ class VagaController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
+            // return response()->json(['errors' => $validation->errors()], 422);
+            return response()->json();
         }
     
         // Instância de Vaga com base nos dados do formulário
@@ -87,14 +88,16 @@ class VagaController extends Controller
     {
         $vaga->update(['pausada' => true]);
         // return redirect()->route('vagas.index')->with('success', 'Vaga pausada com sucesso!');
-        return response()->json(['message' => 'Vaga pausada com sucesso!', 'vaga' => $vaga], 200);
+        //return response()->json(['message' => 'Vaga pausada com sucesso!', 'vaga' => $vaga], 200);
+        return response()->json($vaga, 200);
     }
 
     public function reativar(Vaga $vaga)
     {
         $vaga->update(['pausada' => false]);
         //return redirect()->route('vagas.index')->with('success', 'Vaga reativada com sucesso!');
-        return response()->json(['message' => 'Vaga reativada com sucesso!', 'vaga' => $vaga], 200);
+        //return response()->json(['message' => 'Vaga reativada com sucesso!', 'vaga' => $vaga], 200);
+        return response()->json($vaga, 200);
     }
 
 
@@ -116,7 +119,7 @@ class VagaController extends Controller
         // $vaga->update($request->all());
         $vaga->update($validatedData);
         // return redirect()->route('vagas.index')->with('success', 'Vaga atualizada com sucesso!');
-        return response()->json(['message'=>'Vaga atualizada com sucesso', 'vaga'=>$vaga],200);
+        return response()->json($vaga, 200);
     }
 
     public function destroy(Vaga $vaga)

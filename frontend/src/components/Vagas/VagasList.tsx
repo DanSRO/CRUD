@@ -20,17 +20,14 @@ export function VagasList() {
     const [error, setError] = useState<string | null>(null);
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                // Código antigo, funcional (comentários abaixo): Descomentar quando tiver em container, após as mudanças de css
+            try {                
                 const response = await fetch('http://localhost:9000/api/vagas');
                     if(!response.ok){
                         throw new Error('Network response was not work.');
                     }
                         const data = await response.json();
-                    setVagas(data.data); 
-                //setVagas([{ id: 1, titulo: "macha", descricao: "oie", tipo: "CLT", pausada: false }]);
+                    setVagas(data.data);                
                 setLoading(false);
-
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Unknown error.');
                 setLoading(false);

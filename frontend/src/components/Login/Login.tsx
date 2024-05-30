@@ -11,10 +11,11 @@ export const Login: React.FC = () => {
     const handleLogin = async () => {
         try {
             const response = await fetch('http://localhost:9000/api/login', {
+                mode:'no-cors',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': getCsrfToken(),
+                    //'X-CSRF-TOKEN': getCsrfToken(),
                 },
                 credentials: 'include',
                 body: JSON.stringify({ email, password }),
@@ -23,7 +24,8 @@ export const Login: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login bem-sucedido:', data);
-                window.location.href = 'http://localhost:9000/api/vagas/dashboard';
+                localStorage.setItem('authToken', data.token);
+                window.location.href = 'http://localhost:3000/vagas/';
             } else {
                 console.error('Erro no login');
             }
@@ -31,10 +33,10 @@ export const Login: React.FC = () => {
             console.error('Erro ao fazer login:', error);
         }
     };
-    const getCsrfToken = () => {
-        const token = document.querySelector('meta[name="csrf-token"]');
-        return token ? token.getAttribute('content') || '' : '';
-    };
+    // const getCsrfToken = () => {
+    //     const token = document.querySelector('meta[name="csrf-token"]');
+    //     return token ? token.getAttribute('content') || '' : '';
+    // };
 
     return (
         <div className={styles.container}>

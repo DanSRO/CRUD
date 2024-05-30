@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Vaga, ApiError } from '../Vagas/VagasList';
-
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import styles from './EditVagas.module.scss';
+
+interface Vaga {
+    id: number;
+    titulo: string;
+    descricao: string;
+    tipo: string;
+    pausada: boolean;
+}
 
 export const EditVaga: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,7 +27,13 @@ export const EditVaga: React.FC = () => {
     useEffect(() => {
         const fetchVaga = async () => {
             try {
-                const response = await fetch(`http://localhost:9000/api/vagas/${id}/edit`);
+                const response = await fetch(`http://localhost:9000/api/vagas/${id}/edit`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -49,10 +61,12 @@ export const EditVaga: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(`/api/vagas/${id}`, {
+            const token = localStorage.getItem('authToken');
+            const response = await fetch(`http://localhost:9000/api/vagas/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(vaga),
             });
@@ -120,6 +134,10 @@ export const EditVaga: React.FC = () => {
                     />
                 </label>
                 <button type="submit">Salvar</button>
+                {error && <p className={styles.error}>{error}</p>}
+                <div className={styles.navigation}>
+                    <Link to="/">Voltar para a Página Principal</Link>
+                </div>
             </form>
         </div>
     );

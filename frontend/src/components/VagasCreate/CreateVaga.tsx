@@ -27,7 +27,7 @@ export const CreateVaga: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:9000/api/vagas/create', {
+            const response = await fetch('http://localhost:9000/api/vagas/store', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

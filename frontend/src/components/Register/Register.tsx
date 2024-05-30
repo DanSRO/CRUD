@@ -11,6 +11,7 @@ export const Register:React.FC = () =>{
     const handleRegister = async()=>{
         try{
             const response = await fetch('http://localhost:9000/api/register', {
+                mode: 'no-cors',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',                    
