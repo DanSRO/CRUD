@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Vaga } from '../Vagas/VagasList';
-import styles from './ShowVaga.module.scss';
+import { Candidato } from '../Candidatos/CandidatosList';
+import styles from './ShowCandidato.module.scss';
 
-
-export const ShowVaga: React.FC = () => {
+export const ShowCandidato: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const [vaga, setVaga] = useState<Vaga | null>(null);
+    const [candidato, setCandidato] = useState<Candidato | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchVaga = async () => {
+        const fetchCandidato = async () => {
             try {
-                const response = await fetch(`http://localhost:9000/api/vagas/${id}`);
+                const response = await fetch(`http://localhost:9000/api/candidatos/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const data: Vaga = await response.json();
-                setVaga(data);
+                const data: Candidato = await response.json();
+                setCandidato(data);
                 setLoading(false);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Unknown error');
@@ -27,7 +26,7 @@ export const ShowVaga: React.FC = () => {
             }
         };
 
-        fetchVaga();
+        fetchCandidato();
     }, [id]);
 
     if (loading) {
@@ -40,16 +39,16 @@ export const ShowVaga: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <h1>Detalhes da Vaga</h1>
-            {vaga && (
-                <div className={styles.details}>
-                    <h2>{vaga.titulo}</h2>
-                    <p>{vaga.descricao}</p>
-                    <p>Tipo: {vaga.tipo}</p>
-                    <p>Pausada: {vaga.pausada ? 'Sim' : 'Não'}</p>
+            <h1>Detalhes da Candidato</h1>
+            {candidato && (
+                <div className={styles.details} >
+                    <h2>{candidato.nome}</h2>
+                    <p>{candidato.email}</p>
+                    <p>{candidato.experiencia}</p>
                     <div className={styles.buttons}>                        
-                        <button onClick={() => navigate('/')}>Voltar</button>
-                    </div>
+                        <button onClick={() => navigate('/candidatos')}>Voltar</button>
+                        <button onClick={() => navigate('/')}>Voltar para a Página Principal</button>
+                    </div>                    
                 </div>
             )}
         </div>

@@ -11,7 +11,7 @@ export const Login: React.FC = () => {
     const handleLogin = async () => {
         try {
             const response = await fetch('http://localhost:9000/api/login', {
-                mode:'no-cors',
+                // mode:'no-cors',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const Login: React.FC = () => {
                 const data = await response.json();
                 console.log('Login bem-sucedido:', data);
                 localStorage.setItem('authToken', data.token);
-                window.location.href = 'http://localhost:3000/vagas/';
+                window.location.href = 'http://localhost:3000/';
             } else {
                 console.error('Erro no login');
             }
@@ -59,7 +59,7 @@ export const Login: React.FC = () => {
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.navigation}>
                 <Link to="/">Voltar para a Página Principal</Link>
-                <Link to="/register">Registrar</Link>            
+                <Link to="/register">Não é cadastrado, registre-se aqui.</Link>            
             </div>
         </div>
     );

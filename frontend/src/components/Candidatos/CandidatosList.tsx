@@ -1,33 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import styles from "./VagasList.module.scss"
+import styles from "./CandidatosList.module.scss"
 
-export interface Vaga {
+export interface Candidato {
     id: number;
-    titulo: string;
-    descricao: string;
-    tipo: 'CLT' | 'Pessoa Jurídica' | 'Freelancer';
-    pausada: boolean;
+    nome: string;
+    email: string;
+    experiencia: string;    
 }
 export interface ApiError {
     message: string;
 }
 
-export function VagasList() {
-    const [vagas, setVagas] = useState<Vaga[]>([]);
+export function CandidatosList() {
+    const [candidatos, setCandidatos] = useState<Candidato[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     useEffect(() => {
         const fetchData = async () => {
             try {                
-                const response = await fetch('http://localhost:9000/api/vagas');
+                const response = await fetch('http://localhost:9000/api/candidatos');
                     if(!response.ok){
                         throw new Error('Network response was not work.');
                     }
                         const data = await response.json();
-                    setVagas(data.data);                
+                    setCandidatos(data.data);                
                 setLoading(false);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Unknown error.');
@@ -39,13 +38,13 @@ export function VagasList() {
 
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetch(`http://localhost:9000/api/vagas/${id}`, {
+            const response = await fetch(`http://localhost:9000/api/candidatos/${id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            setVagas(vagas.filter(vaga => vaga.id !== id));
+            setCandidatos(candidatos.filter(candidato => candidato.id !== id));
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
         }
@@ -84,9 +83,8 @@ export function VagasList() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>Lista de Vagas</h1>
-                <Link to={`/create`}>Criar vaga</Link>
-                <Link to={`/candidatos`}>Página de Candidatos</Link>
+                <h1>Lista de Candidatos</h1>
+                <Link to={`/create`}>Criar candidato</Link>
                 {isLoggedIn ? (
                     <button onClick={handleLogout}>Logout</button>
                     ) : (
@@ -94,14 +92,17 @@ export function VagasList() {
                 )}
             </div>
             <ul>
-                {vagas.map(vaga => (
-                    <li key={vaga.id} className={styles.vagaItem}>
-                        <h2>{vaga.titulo}</h2>
-                        <p>{vaga.descricao}</p>
+                {candidatos.map(candidato => (
+                    <li key={candidato.id} className={styles.candidatoItem}>
+                        <h2>{candidato.nome}</h2>
+                        <p>{candidato.experiencia}</p>
                         <div className={styles.buttonGroup}>                                
-                            <Link to={`/edit/${vaga.id}`} className={`${styles.button} ${styles.edit}`}>Editar</Link>
-                            <Link to={`/show/${vaga.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>
-                            <button onClick={() => handleDelete(vaga.id)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
+                            <Link to={`/edit/${candidato.id}`} className={`${styles.button} ${styles.edit}`}>Editar</Link>
+                            <Link to={`/show/${candidato.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>
+                            <button onClick={() => handleDelete(candidato.id)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
+                        </div>
+                        <div className={styles.navigation}>                            
+                            <Link to="/">Voltar para a Página Principal</Link>                
                         </div>
                     </li>
                 ))}                

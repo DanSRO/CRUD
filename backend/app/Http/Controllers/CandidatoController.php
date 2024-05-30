@@ -25,7 +25,8 @@ class CandidatoController extends Controller
             $candidatos = Candidato::paginate(20);
         }
     
-        return view('candidatos.index', compact('candidatos'));
+        // return view('candidatos.index', compact('candidatos'));
+        return response()->json($candidatos);
     }
 
     public function create()
