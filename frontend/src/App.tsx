@@ -14,17 +14,22 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/' element={<VagasList/>}/>
-        <Route path='/candidatos' element={<CandidatosList/>}/>
-        <Route path='/register' element={<Register/>}/>        
-        <Route path='/create' element={<CreateVaga/>}/>        
-        <Route path='/edit/:id' element={<EditVaga/>}/>        
-        <Route path='/show/:id' element={<ShowVaga/>}/>
-        <Route path='/create' element={<CreateCandidato/>}/>        
-        <Route path='/edit/:id' element={<EditCandidato/>}/>        
-        <Route path='/show/:id' element={<ShowCandidato/>}/>        
-      </Routes>      
+        /** Rotas de usuário */
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+
+        /** Rotas vagas */
+        <Route path='/' element={<VagasList />} /> /** Página principal, listagem de vagas */
+        <Route path='/create' element={<CreateVaga />} />
+        <Route path='/edit/:id' element={<EditVaga />} />
+        <Route path='/show/:id' element={<ShowVaga />} />
+
+        /** Rotas candidatos */
+        <Route path='/candidatos' element={<CandidatosList />} />
+        <Route path='/candidatos/create' element={<CreateCandidato />} />
+        <Route path='/candidatos/edit/:id' element={<EditCandidato />} />
+        <Route path='/candidatos/show/:id' element={<ShowCandidato />} />
+      </Routes>
     </Router>
   );
 }

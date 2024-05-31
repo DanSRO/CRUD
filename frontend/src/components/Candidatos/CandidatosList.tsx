@@ -7,7 +7,7 @@ export interface Candidato {
     id: number;
     nome: string;
     email: string;
-    experiencia: string;    
+    experiencia: string;
 }
 export interface ApiError {
     message: string;
@@ -19,14 +19,17 @@ export function CandidatosList() {
     const [error, setError] = useState<string | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     useEffect(() => {
+        console.log(isLoggedIn);
+    }, [isLoggedIn])
+    useEffect(() => {
         const fetchData = async () => {
-            try {                
+            try {
                 const response = await fetch('http://localhost:9000/api/candidatos');
-                    if(!response.ok){
-                        throw new Error('Network response was not work.');
-                    }
-                        const data = await response.json();
-                    setCandidatos(data.data);                
+                if (!response.ok) {
+                    throw new Error('Network response was not work.');
+                }
+                const data = await response.json();
+                setCandidatos(data.data);
                 setLoading(false);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Unknown error.');
@@ -50,27 +53,15 @@ export function CandidatosList() {
         }
     };
 
-    const handleLogout = async () => {
-        try{
-            const response = await fetch('http://localhost:9000/api/logout',{
-                method:'get',
-            });
-            if(response.ok) {
-                // Redirecionar para a página de login ou outra página
-                window.location.href = 'http://localhost:9000/api/login';
-            }
-            else {
-                console.error('Erro ao fazer logout:', error);
-            }
-        }catch(err){
-            console.error('Erro ao fazer logout:', err);
-        }
+    const handleLogout = async () => {        
+        localStorage.removeItem('authToken');
+        return window.location.href = 'http://localhost:3000/login';
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
         setIsLoggedIn(!!token);
-      }, []);
+    }, []);
 
 
     if (loading) {
@@ -79,15 +70,27 @@ export function CandidatosList() {
     if (error) {
         return <div>Error: {error}</div>;
     }
-    console.log(isLoggedIn);
+
+    function protectedVacancyCreate(param: string, candidato?: Candidato) {
+        if (param === "create" && isLoggedIn) {
+            return <Link to="/candidatos/create">Criar candidato</Link>;
+        } else if (param === "edit" && isLoggedIn) {
+            return <Link to={`/candidatos/edit/${candidato?.id}`}>Editar</Link>;
+        } else if (param === "delete" && isLoggedIn) {
+            return handleDelete(candidato?.id as number);
+        }  else {
+            return alert('Precisa estar logado para acessar esse recurso!');
+        }
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h1>Lista de Candidatos</h1>
-                <Link to={`/create`}>Criar candidato</Link>
+                <Link to={`/candidatos/create`}>Criar candidato</Link>
                 {isLoggedIn ? (
-                    <button onClick={handleLogout}>Logout</button>
-                    ) : (
+                    <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
+                ) : (
                     <Link to={`/login`}>Login</Link>
                 )}
             </div>
@@ -96,17 +99,17 @@ export function CandidatosList() {
                     <li key={candidato.id} className={styles.candidatoItem}>
                         <h2>{candidato.nome}</h2>
                         <p>{candidato.experiencia}</p>
-                        <div className={styles.buttonGroup}>                                
-                            <Link to={`/edit/${candidato.id}`} className={`${styles.button} ${styles.edit}`}>Editar</Link>
-                            <Link to={`/show/${candidato.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>
-                            <button onClick={() => handleDelete(candidato.id)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
-                        </div>
-                        <div className={styles.navigation}>                            
-                            <Link to="/">Voltar para a Página Principal</Link>                
+                        <div className={styles.buttonGroup}>
+                            <button type="button" className={`${styles.button} ${styles.edit}`} onClick={() => protectedVacancyCreate("edit", candidato)}>Editar</button>
+                            <Link to={`/candidatos/show/${candidato.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>                            
+                            <button type="button" onClick={() => protectedVacancyCreate("delete", candidato)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
                         </div>
                     </li>
-                ))}                
+                ))}
             </ul>
-        </div>        
+            <div className={styles.navigation}>
+                <Link to="/">Voltar para a Página Principal</Link>
+            </div>
+        </div>
     );
 }

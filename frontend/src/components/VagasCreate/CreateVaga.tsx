@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Vaga } from '../Vagas/VagasList';
 
@@ -14,6 +14,13 @@ export const CreateVaga: React.FC = () => {
     });
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string>('');
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        setIsLoggedIn(!!token);
+    }, [])
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -46,55 +53,64 @@ export const CreateVaga: React.FC = () => {
     };
 
     return (
+
         <div className={styles.container}>
-            <h1>Create Vaga</h1>
-            {message && <p>{message}</p>}
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Título:
-                    <input
-                        type="text"
-                        name="titulo"
-                        value={vaga.titulo}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Descrição:
-                    <textarea
-                        name="descricao"
-                        value={vaga.descricao}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Tipo:
-                    <select
-                        name="tipo"
-                        value={vaga.tipo}
-                        onChange={handleInputChange}
-                    >
-                        <option value="CLT">CLT</option>
-                        <option value="Pessoa Jurídica">Pessoa Jurídica</option>
-                        <option value="Freelancer">Freelancer</option>
-                    </select>
-                </label>
-                <label>
-                    Pausada:
-                    <input
-                        type="checkbox"
-                        name="pausada"
-                        checked={vaga.pausada}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <button type="submit">Salvar</button>
-                {error && <p className={styles.error}>{error}</p>}
-            <div className={styles.navigation}>
-                <Link to="/">Voltar para a Página Principal</Link>                
-            </div>
-            </form>
+            {isLoggedIn ? (
+                <>
+                    <h1>Create Vaga</h1>
+                    {message && <p>{message}</p>}
+                    {error && <p>{error}</p>}
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Título:
+                            <input
+                                type="text"
+                                name="titulo"
+                                value={vaga.titulo}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Descrição:
+                            <textarea
+                                name="descricao"
+                                value={vaga.descricao}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Tipo:
+                            <select
+                                name="tipo"
+                                value={vaga.tipo}
+                                onChange={handleInputChange}
+                            >
+                                <option value="CLT">CLT</option>
+                                <option value="Pessoa Jurídica">Pessoa Jurídica</option>
+                                <option value="Freelancer">Freelancer</option>
+                            </select>
+                        </label>
+                        <label>
+                            Pausada:
+                            <input
+                                type="checkbox"
+                                name="pausada"
+                                checked={vaga.pausada}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <button type="submit">Salvar</button>
+                        {error && <p className={styles.error}>{error}</p>}
+                        <div className={styles.navigation}>
+                            <Link to="/">Voltar para a Página Principal</Link>
+                        </div>
+                    </form>
+                </>
+
+            ) : (
+                <h1>Necessário estar logado</h1>
+            )}
+
         </div>
     );
 };

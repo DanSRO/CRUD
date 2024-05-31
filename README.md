@@ -10,7 +10,19 @@
 
 #Após baixar o projeto em https://github.com/DanSRO/CRUD;
 
+![baixar projeto](/backend/public/img/gitBaixar.png);
+
 #Entre na raiz do projeto com cd CRUD;
+
+#Crie um arquivo com extensão .yml na raiz do projeto, caso seja necessário, de acordo com a figura abaixo:
+
+![docker-compose](/backend/public/img/doker-compose.png);
+
+#caso seja necessário, aqui estão os arquivos Dockerfile para serem criados dentro de cada projeto isolado, frontend e backend:
+
+![dockerfile-back](/backend/public/img/dockerfileback.png);
+
+![dockerfile-front](/backend/public/img/dockerfileFront.png);
 
 #Dentro do projeto use "docker exec -it backend sh" para entrar no container;
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Candidato } from '../Candidatos/CandidatosList';
 
@@ -13,6 +13,12 @@ export const CreateCandidato: React.FC = () => {
     });
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string>('');
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        setIsLoggedIn(!!token);
+    }, [])
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -38,7 +44,7 @@ export const CreateCandidato: React.FC = () => {
             }
             const data: { message: string } = await response.json();
             setMessage(data.message);
-            navigate('/');
+            navigate('/candidatos');
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
         }
@@ -46,6 +52,8 @@ export const CreateCandidato: React.FC = () => {
 
     return (
         <div className={styles.container}>
+            {isLoggedIn ? (
+            <>
             <h1>Create Candidato</h1>
             {message && <p>{message}</p>}
             {error && <p>{error}</p>}
@@ -83,6 +91,10 @@ export const CreateCandidato: React.FC = () => {
                 <Link to="/">Voltar para a Página Principal</Link>                
             </div>
             </form>
+            </>
+            ) : (
+                <h1>Necessário estar logado</h1>
+            )}
         </div>
     );
 };
