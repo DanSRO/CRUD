@@ -9,6 +9,7 @@ import { CreateCandidato } from './components/CandidatosCreate/CreateCandidato';
 import { EditCandidato } from './components/CandidatoEdit/EditCandidatos';
 import { ShowCandidato } from './components/CandidatoShow/ShowCandidato';
 import { CandidatosList } from './components/Candidatos/CandidatosList';
+import { NotLogged } from './components/NotLogged/NotLogged';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         /** Rotas de usuário */
         <Route path='/login' element={<Login />} />
+        <Route path='/not-logged' element={<NotLogged />} />
         <Route path='/register' element={<Register />} />
 
         /** Rotas vagas */
