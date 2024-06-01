@@ -40,6 +40,9 @@ export function CandidatosList() {
     }, []);
 
     const handleDelete = async (id: number) => {
+        if (!isLoggedIn) {
+            return alert("É necessário realizar login para excluir um registro!")
+        }
         try {
             const response = await fetch(`http://localhost:9000/api/candidatos/${id}`, {
                 method: 'DELETE',
@@ -71,22 +74,23 @@ export function CandidatosList() {
         return <div>Error: {error}</div>;
     }
 
-    function protectedVacancyCreate(param: string, candidato?: Candidato) {
-        if (param === "create" && isLoggedIn) {
-            return <Link to="/candidatos/create">Criar candidato</Link>;
-        } else if (param === "edit" && isLoggedIn) {
-            return <Link to={`/candidatos/edit/${candidato?.id}`}>Editar</Link>;
-        } else if (param === "delete" && isLoggedIn) {
-            return handleDelete(candidato?.id as number);
-        }  else {
-            return alert('Precisa estar logado para acessar esse recurso!');
-        }
-    }
+    // function protectedVacancyCreate(param: string, candidato?: Candidato) {
+    //     if (param === "create" && isLoggedIn) {
+    //         return <Link to="/candidatos/create">Criar candidato</Link>;
+    //     } else if (param === "edit" && isLoggedIn) {
+    //         return <Link to={`/candidatos/edit/${candidato?.id}`}>Editar</Link>;
+    //     } else if (param === "delete" && isLoggedIn) {
+    //         return handleDelete(candidato?.id as number);
+    //     }  else {
+    //         return alert('Precisa estar logado para acessar esse recurso!');
+    //     }
+    // }
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h1>Lista de Candidatos</h1>
+                <Link to={isLoggedIn ? 'create' : 'not-logged'} >Criar candidato</Link>
                 <Link to={`/candidatos/create`}>Criar candidato</Link>
                 {isLoggedIn ? (
                     <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
@@ -100,9 +104,13 @@ export function CandidatosList() {
                         <h2>{candidato.nome}</h2>
                         <p>{candidato.experiencia}</p>
                         <div className={styles.buttonGroup}>
-                            <button type="button" className={`${styles.button} ${styles.edit}`} onClick={() => protectedVacancyCreate("edit", candidato)}>Editar</button>
-                            <Link to={`/candidatos/show/${candidato.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>                            
-                            <button type="button" onClick={() => protectedVacancyCreate("delete", candidato)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
+                            {/* <button type="button" className={`${styles.button} ${styles.edit}`} onClick={() => protectedVacancyCreate("edit", candidato)}>Editar</button> */}
+                            {/* <Link to={`/candidatos/show/${candidato.id}`} className={`${styles.button} ${styles.view}`}>Ver</Link>                             */}
+                            
+                            <Link to={isLoggedIn ? `/candidatos/edit/${candidato.id}` : '/not-logged'} className={`${styles.button} ${styles.view}`}>Editar</Link>
+                            <Link to={isLoggedIn ? `/candidatos/show/${candidato.id}` : '/not-logged'} className={`${styles.button} ${styles.view}`}>Ver</Link>
+                            
+                            <button type="button" onClick={() => handleDelete(candidato.id)} className={`${styles.button} ${styles.delete}`}>Deletar</button>
                         </div>
                     </li>
                 ))}
