@@ -3,7 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
-# .env
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -14,3 +14,6 @@ yarn-error.log
 /.idea
 /.vscode
 /storage/debugbar/
+
+# Ignorar composer.lock
+composer.lock
