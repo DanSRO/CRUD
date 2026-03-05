@@ -56,6 +56,13 @@
     "qs": "6.14.1",
     "react-router-dom": "^7.12.0",
     "@remix-run/router":"1.23.2",
-    "brace-expansion": "^2.0.2"
+    "brace-expansion": "^2.0.2",
+    "@isaacs/brace-expansion": ">=5.0.1",
+    "serialize-javascript": ">=7.0.3",
+    "minimatch": ">=3.0.5",
+    "nth-check": "^2.0.1",
+    "underscore": "^1.13.8",    
+    "postcss": "^8.4.31",
+    "webpack-dev-server": "^5.2.1"
   }
 }
