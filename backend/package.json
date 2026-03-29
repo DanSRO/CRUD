@@ -25,6 +25,6 @@
         "qs": "6.14.1"
     },
     "resolutions": {
-        "brace-expansion": "^2.0.2"
+        "brace-expansion": "^2.0.3"
     }
 }
