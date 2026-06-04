@@ -13,7 +13,7 @@
     "@types/react-router-dom": "^5.3.3",
     "glob": "^13.0.0",
     "node-forge": "^1.3.3",
-    "qs": "6.14.1",
+    "qs": "^6.15.2",
     "react": "^19.2.3",
     "react-css-modules": "^4.7.11",
     "react-dom": "^19.2.3",
@@ -53,16 +53,20 @@
   "resolutions": {
     "glob": "^10.4.5",
     "node-forge": "^1.3.3",
-    "qs": "6.14.1",
+    "qs": "^6.15.2",
     "react-router-dom": "^7.12.0",
     "@remix-run/router":"1.23.2",
     "brace-expansion": "^2.0.2",
     "@isaacs/brace-expansion": ">=5.0.1",
     "serialize-javascript": ">=7.0.3",
-    "minimatch": ">=3.0.5",
+    "picomatch": "^2.3.2",
+    "micromatch": "^4.0.8",
     "nth-check": "^2.0.1",
     "underscore": "^1.13.8",    
     "postcss": "^8.4.31",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-dev-server": "^5.2.1", 
+    "immutable": "^5.1.5",
+    "uuid": "^11.1.1",
+    "@tootallnate/once": "^2.0.1"
   }
 }
