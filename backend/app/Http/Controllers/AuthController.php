@@ -13,7 +13,18 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users',
+                function ($attribute, $value, $fail) {
+                    if (preg_match('/[\r\n]/', $value)) {
+                        $fail('E-mail inválido.');
+                    }
+                },
+            ],
             'password' => 'required|string|min:8|confirmed',
         ]);
 
